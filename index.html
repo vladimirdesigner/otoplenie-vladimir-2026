@@ -84,7 +84,6 @@ function chips(id,k,names,all){const box=$(id);
 function sync(){document.querySelectorAll('.chips button').forEach(b=>b.setAttribute('aria-pressed',sel?(+b.dataset.k==sel[0]&&+b.dataset.v==sel[1]):(b.dataset.v==-1)))}
 chips('#c1',0,OFF,true);chips('#c2',1,FOLK,false);sync();
 $('#q').oninput=()=>{if(sel&&$('#q').value.trim()){sel=null;sync()}view()};
-try{const h=decodeURIComponent(location.hash.slice(1));if(h)$('#q').value=h}catch(e){}
 view();
 </script>
 </body>
