@@ -121,6 +121,7 @@ function view(){
     if(!list.length&&!warn)warn='<p class="note">Ничего не нашлось. Проверьте написание улицы или попробуйте часть названия.</p>'}
   else if(!list.length)warn='<p class="note">В этом районе ничего не найдено.</p>';
   const n=list.reduce((a,x)=>a+x[1].length,0),one=q&&!warn&&list.length==1&&n==1;
+  window.__n=n;
   $('#hit').innerHTML=one?(x=>{const r=x[1][0];return `<article class="one"><p class="ttl">Отопление включат в ${WDF[r[1]]}, ${DL[r[1]].replace(" "," ")}</p><h2>${E(x[0])}</h2><div class="r"><b>${E(r[0]).replace(/-/g,'\u2011')}</b><span class="d">${DL[r[1]]}<small>${WD[r[1]]}</small></span><span class="s">${E(r[2])}</span></div></article>`})(list[0]):'';
   $('#out').innerHTML=one?'':warn+list.map(x=>blk(x,hit)).join('');
   try{history.replaceState(
@@ -178,6 +179,17 @@ $('#q').onkeydown = (e) => {
 };
 
 view();
+
+// Статистика GoatCounter: впишите код сайта между кавычками, например 'otoplenie-vl'
+const GC='vladimirsesigner';
+if(GC){
+  const g=document.createElement('script');g.async=true;g.dataset.goatcounter='https://'+GC+'.goatcounter.com/count';g.src='https://gc.zgo.at/count.js';document.head.append(g);
+  document.querySelector('footer').append(' Ведётся анонимная статистика посещений и поисковых запросов (GoatCounter).');
+  let gt;const oi=$('#q').oninput;
+  $('#q').oninput=e=>{oi(e);clearTimeout(gt);gt=setTimeout(()=>{const q=$('#q').value.trim().toLowerCase();
+    if(q.length<3||!window.goatcounter||!goatcounter.count)return;
+    goatcounter.count({path:(window.__n?'search/':'search-empty/')+q,title:'Поиск: '+q,event:true})},1500)};
+}
 </script>
 </body>
 </html>
